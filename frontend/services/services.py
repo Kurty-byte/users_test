@@ -37,9 +37,22 @@ except ImportError:
 
 # Configure logging for API service operations
 log_level = os.getenv('LOG_LEVEL', 'INFO')
+
+# Create logs directory if it doesn't exist
+import pathlib
+log_dir = pathlib.Path(__file__).parent.parent.parent / 'logs'
+log_dir.mkdir(exist_ok=True)
+
+# Configure logging with both console and file output
 logging.basicConfig(
     level=getattr(logging, log_level.upper()),
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        # Console handler (existing behavior)
+        logging.StreamHandler(),
+        # File handler (new - saves to logs/frontend.log)
+        logging.FileHandler(log_dir / 'frontend.log', encoding='utf-8'),
+    ]
 )
 logger = logging.getLogger(__name__)
 
