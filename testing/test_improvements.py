@@ -3,9 +3,13 @@ Test script to verify the improvements made to the Django User Management system
 """
 import sys
 import os
+from pathlib import Path
 
-# Add the frontend directory to Python path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'frontend'))
+# Add the frontend directory to Python path (absolute path, robust)
+project_root = Path(__file__).resolve().parent.parent
+frontend_dir = project_root / 'frontend'
+if str(frontend_dir) not in sys.path:
+    sys.path.insert(0, str(frontend_dir))
 
 def test_config():
     """Test configuration loading"""

@@ -9,11 +9,16 @@ Creates 3 faculty, 3 staff, and 5 students with default password: password123
 import os
 import sys
 import django
+
+import sys
+import os
 from pathlib import Path
 
-# Add the backend directory to Python path
-backend_dir = Path(__file__).parent / 'backend'
-sys.path.append(str(backend_dir))
+# Add the backend directory to Python path (absolute path, robust)
+project_root = Path(__file__).resolve().parent.parent
+backend_dir = project_root / 'backend'
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
 
 # Setup Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')

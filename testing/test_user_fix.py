@@ -3,9 +3,13 @@ Quick verification script to ensure all User model instances are using the new A
 """
 import sys
 import os
+from pathlib import Path
 
-# Add the frontend directory to Python path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'frontend'))
+# Add the frontend directory to Python path (absolute path, robust)
+project_root = Path(__file__).resolve().parent.parent
+frontend_dir = project_root / 'frontend'
+if str(frontend_dir) not in sys.path:
+    sys.path.insert(0, str(frontend_dir))
 
 def test_user_creation_methods():
     """Test that User model works correctly with new methods"""

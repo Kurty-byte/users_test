@@ -18,8 +18,25 @@ This utility should be run before starting the frontend application to ensure
 the backend is ready to handle API requests.
 """
 
-import requests
+
 import sys
+import os
+from pathlib import Path
+
+# Add backend and frontend to sys.path for possible imports (robust, matches project structure)
+project_root = Path(__file__).resolve().parent.parent
+backend_dir = project_root / 'backend'
+frontend_dir = project_root / 'frontend'
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+if str(frontend_dir) not in sys.path:
+    sys.path.insert(0, str(frontend_dir))
+
+try:
+    import requests
+except ImportError:
+    print("❌ The 'requests' library is required. Please install it with 'pip install requests'.")
+    sys.exit(1)
 
 
 def test_django_connection():
